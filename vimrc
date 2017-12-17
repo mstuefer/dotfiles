@@ -1,20 +1,22 @@
 call plug#begin("~/.vim/plugged")
 
-Plug 'AndrewRadev/splitjoin.vim'        " split or join one-liner in multiline and vice-versa
-Plug 'ConradIrwin/vim-bracketed-paste'  " cmd-v without mess
-Plug 'Raimondi/delimitMate'             " closes quotes,parenthesis,brackets..
-Plug 'ctrlpvim/ctrlp.vim'               " full path fuzzy file, buffer, mru, tag, .. finder
-Plug 'elzr/vim-json', {'for' : 'json'}  " syntax-highlighting for json
-Plug 'fatih/vim-go'                     " go magic <3
+Plug 'AndrewRadev/splitjoin.vim'                                " split or join one-liner in multiline and vice-versa
+Plug 'ConradIrwin/vim-bracketed-paste'                          " cmd-v without mess
+Plug 'Raimondi/delimitMate'                                     " closes quotes,parenthesis,brackets..
+Plug 'ctrlpvim/ctrlp.vim'                                       " full path fuzzy file, buffer, mru, tag, .. finder
+Plug 'elzr/vim-json', {'for' : 'json'}                          " syntax-highlighting for json
+Plug 'fatih/vim-go'                                             " go magic <3
 Plug 'scrooloose/nerdtree'
-Plug 't9md/vim-choosewin'               " mimics tmuxs display-pane, to choose window
-Plug 'tmux-plugins/vim-tmux', {'for' : 'tmux' } " tmux.conf editing support
+Plug 't9md/vim-choosewin'                                       " mimics tmuxs display-pane, to choose window
+Plug 'tmux-plugins/vim-tmux', {'for' : 'tmux' }                 " tmux.conf editing support
 Plug 'tpope/vim-commentary'
-Plug 'tpope/vim-fugitive'               " git wrapper
+Plug 'tpope/vim-fugitive'                                       " git wrapper
 Plug 'altercation/vim-colors-solarized'
-Plug 'pangloss/vim-javascript'          " js bundle for vim (better highlighting etc)
-Plug 'airblade/vim-gitgutter'           " show git diff in gutter (sign column)
+Plug 'pangloss/vim-javascript'                                  " js bundle for vim (better highlighting etc)
+Plug 'airblade/vim-gitgutter'                                   " show git diff in gutter (sign column)
 Plug 'scrooloose/syntastic'
+Plug 'shougo/deoplete.nvim', {'do' : ':UpdateRemotePlugins'}    " async keyword completion in current buffer
+Plug 'neovim/python-client'                                     " support for py plugins in nvim
 
 call plug#end()
 
@@ -510,4 +512,7 @@ set wildmenu
 " Go settings
 let g:go_fmt_command="goimports"
 
-
+" deoplete
+let g:python_host_prog="/usr/local/bin/python3"
+let g:python3_host_prog="/usr/local/bin/python3"
+let g:deoplete#enable_at_startup = 1
