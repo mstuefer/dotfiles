@@ -62,7 +62,7 @@ alias vi=vim
 
 alias el='exa -l --git --sort=Name'
 alias l=el
-alias ll=el
+alias ll='el -a'
 alias lt='el -T'
 
 alias ..='cd ..'
