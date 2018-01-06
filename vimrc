@@ -321,6 +321,7 @@ nnoremap <leader>ui :<C-u>call <SID>create_go_doc_comment()<CR>
 
 " ==================== FZF ===================
 nmap <C-t> :Files<cr>
+nmap <C-c> :Commits<cr>
 
 " ==================== limelight ===================
 let g:limelight_conceal_ctermfg = 'gray'
