@@ -19,6 +19,7 @@ Plug 'shougo/deoplete.nvim', {'do' : ':UpdateRemotePlugins'}      " async keywor
 Plug 'neovim/python-client'                                       " support for py plugins in nvim
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' } " clone fzf in ~/.fzf and run install script
 Plug 'junegunn/fzf.vim'                                           " the additional vim plugin
+Plug 'junegunn/limelight.vim'
 
 call plug#end()
 
@@ -63,8 +64,8 @@ set viminfo='200
 set lazyredraw
 
 if has('persistent_undo')
-  set undofile
-  set undodir=~/.cache/vim
+        set undofile
+        set undodir=~/.cache/vim
 endif
 
 syntax enable
@@ -80,16 +81,16 @@ set expandtab
 
 set number relativenumber       " set relativenumber
 augroup numbertoggle
-  autocmd!
-  autocmd BufEnter,FocusGained,InsertLeave * set relativenumber " on active tab
-  autocmd BufLeave,FocusLost,InsertEnter * set norelativenumber " on non-active tabs
+        autocmd!
+        autocmd BufEnter,FocusGained,InsertLeave * set relativenumber " on active tab
+        autocmd BufLeave,FocusLost,InsertEnter * set norelativenumber " on non-active tabs
 augroup END
 
 autocmd BufWritePre * :%s/\s\+$//e  " del trailing slashes on save
 
 if has("autocmd")
-  au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$")
-    \| exe "normal! g'\"" | endif
+        au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$")
+                                \| exe "normal! g'\"" | endif
 endif                           " jump to last position on reopening
 
 autocmd BufNewFile,BufRead *.go setlocal noexpandtab ts=4 sw=4
@@ -102,61 +103,61 @@ autocmd FileType ruby setlocal expandtab sw=2 ts=2
 autocmd FileType perl setlocal expandtab sw=4 ts=4
 
 augroup filetypedetect
-  autocmd BufNewFile,BufRead .tmux.conf*,tmux.conf* setf tmux
+        autocmd BufNewFile,BufRead .tmux.conf*,tmux.conf* setf tmux
 augroup END
 
 let s:modes = {
-      \ 'n': 'NORMAL',
-      \ 'i': 'INSERT',
-      \ 'R': 'REPLACE',
-      \ 'v': 'VISUAL',
-      \ 'V': 'V-LINE',
-      \ "\<C-v>": 'V-BLOCK',
-      \ 'c': 'COMMAND',
-      \ 's': 'SELECT',
-      \ 'S': 'S-LINE',
-      \ "\<C-s>": 'S-BLOCK',
-      \ 't': 'TERMINAL'
-      \}
+                        \ 'n': 'NORMAL',
+                        \ 'i': 'INSERT',
+                        \ 'R': 'REPLACE',
+                        \ 'v': 'VISUAL',
+                        \ 'V': 'V-LINE',
+                        \ "\<C-v>": 'V-BLOCK',
+                        \ 'c': 'COMMAND',
+                        \ 's': 'SELECT',
+                        \ 'S': 'S-LINE',
+                        \ "\<C-s>": 'S-BLOCK',
+                        \ 't': 'TERMINAL'
+                        \}
 
 let s:prev_mode = ""
 function! StatusLineMode()
-  let cur_mode = get(s:modes, mode(), '')
+        let cur_mode = get(s:modes, mode(), '')
 
-  " do not update higlight if the mode is the same
-  if cur_mode == s:prev_mode
-    return cur_mode
-  endif
+        " do not update higlight if the mode is the same
+        if cur_mode == s:prev_mode
+                return cur_mode
+        endif
 
-  if cur_mode == "NORMAL"
-    exe 'hi! StatusLine ctermfg=236'
-    exe 'hi! myModeColor cterm=bold ctermbg=148 ctermfg=22'
-  elseif cur_mode == "INSERT"
-    exe 'hi! myModeColor cterm=bold ctermbg=23 ctermfg=231'
-  elseif cur_mode == "VISUAL" || cur_mode == "V-LINE" || cur_mode == "V_BLOCK"
-    exe 'hi! StatusLine ctermfg=236'
-    exe 'hi! myModeColor cterm=bold ctermbg=208 ctermfg=88'
-  endif
+        if cur_mode == "NORMAL"
+                exe 'hi! StatusLine ctermfg=236'
+                exe 'hi! myModeColor cterm=bold ctermbg=148 ctermfg=22'
+        elseif cur_mode == "INSERT"
+                exe 'hi! myModeColor cterm=bold ctermbg=23 ctermfg=231'
+        elseif cur_mode == "VISUAL" || cur_mode == "V-LINE" || cur_mode == "V_BLOCK"
+                exe 'hi! StatusLine ctermfg=236'
+                exe 'hi! myModeColor cterm=bold ctermbg=208 ctermfg=88'
+        endif
 
-  let s:prev_mode = cur_mode
-  return cur_mode
+        let s:prev_mode = cur_mode
+        return cur_mode
 endfunction
 
 function! StatusLineFiletype()
-  return winwidth(0) > 70 ? (strlen(&filetype) ? &filetype : 'no ft') : ''
+        return winwidth(0) > 70 ? (strlen(&filetype) ? &filetype : 'no ft') : ''
 endfunction
 
 function! StatusLinePercent()
-  return (100 * line('.') / line('$')) . '%'
+        return (100 * line('.') / line('$')) . '%'
 endfunction
 
 function! StatusLineLeftInfo()
- let branch = fugitive#head()
- let filename = '' != expand('%:t') ? expand('%:t') : '[No Name]'
- if branch !=# ''
-   return printf("%s | %s", branch, filename)
- endif
- return filename
+        let branch = fugitive#head()
+        let filename = '' != expand('%:t') ? expand('%:t') : '[No Name]'
+        if branch !=# ''
+                return printf("%s | %s", branch, filename)
+        endif
+        return filename
 endfunction
 
 exe 'hi! myInfoColor ctermbg=240 ctermfg=252'
@@ -208,8 +209,8 @@ nnoremap <leader>a :cclose<CR>
 " put quickfix window always to the bottom
 autocmd FileType qf wincmd J
 augroup quickfix
-    autocmd!
-    autocmd FileType qf setlocal wrap
+        autocmd!
+        autocmd FileType qf setlocal wrap
 augroup END
 
 " Fast saving
@@ -282,14 +283,14 @@ nnoremap <silent> * :let stay_star_view = winsaveview()<cr>*:call winrestview(st
 " Time out on key codes but not mappings.
 " Basically this makes terminal Vim work sanely.
 if !has('gui_running')
-  set notimeout
-  set ttimeout
-  set ttimeoutlen=10
-  augroup FastEscape
-    autocmd!
-    au InsertEnter * set timeoutlen=0
-    au InsertLeave * set timeoutlen=1000
-  augroup END
+        set notimeout
+        set ttimeout
+        set ttimeoutlen=10
+        augroup FastEscape
+                autocmd!
+                au InsertEnter * set timeoutlen=0
+                au InsertLeave * set timeoutlen=1000
+        augroup END
 endif
 
 au InsertEnter * hi StatusLine ctermbg=235 ctermfg=2
@@ -297,10 +298,10 @@ au InsertLeave * hi StatusLine ctermbg=2   ctermfg=235
 
 " Visual Mode */# from Scrooloose {{{
 function! s:VSetSearch()
-  let temp = @@
-  norm! gvy
-  let @/ = '\V' . substitute(escape(@@, '\'), '\n', '\\n', 'g')
-  let @@ = temp
+        let temp = @@
+        norm! gvy
+        let @/ = '\V' . substitute(escape(@@, '\'), '\n', '\\n', 'g')
+        let @@ = temp
 endfunction
 
 vnoremap * :<C-u>call <SID>VSetSearch()<CR>//<CR><c-o>
@@ -308,9 +309,9 @@ vnoremap # :<C-u>call <SID>VSetSearch()<CR>??<CR><c-o>
 
 " create a go doc comment based on the word under the cursor
 function! s:create_go_doc_comment()
-  norm "zyiw
-  execute ":put! z"
-  execute ":norm I// \<Esc>$"
+        norm "zyiw
+        execute ":put! z"
+        execute ":norm I// \<Esc>$"
 endfunction
 nnoremap <leader>ui :<C-u>call <SID>create_go_doc_comment()<CR>
 
@@ -318,11 +319,20 @@ nnoremap <leader>ui :<C-u>call <SID>create_go_doc_comment()<CR>
 "===================== PLUGINS ======================
 "
 
+" ==================== FZF ===================
+nmap <C-t> :Files<cr>
+
+" ==================== limelight ===================
+let g:limelight_conceal_ctermfg = 'gray'
+let g:limelight_conceal_ctermfg = 240
+"nmap <Leader>l <Plug>(Limelight)
+" :LimeLight! to leave
+
 " ==================== Fugitive ====================
 vnoremap <leader>gb :Gblame<CR>
 nnoremap <leader>gb :Gblame<CR>
 
-" ==================== vim-go ====================
+" ==================== vim-go ======================
 let g:go_fmt_fail_silently = 0
 let g:go_fmt_command = "goimports"
 let g:go_list_type = "quickfix"
@@ -349,37 +359,37 @@ imap <C-g> <esc>:<C-u>GoDecls<cr>
 
 " run :GoBuild or :GoTestCompile based on the go file
 function! s:build_go_files()
-  let l:file = expand('%')
-  if l:file =~# '^\f\+_test\.go$'
-    call go#test#Test(0, 1)
-  elseif l:file =~# '^\f\+\.go$'
-    call go#cmd#Build(0)
-  endif
+        let l:file = expand('%')
+        if l:file =~# '^\f\+_test\.go$'
+                call go#test#Test(0, 1)
+        elseif l:file =~# '^\f\+\.go$'
+                call go#cmd#Build(0)
+        endif
 endfunction
 
 augroup go
-  autocmd!
+        autocmd!
 
-  autocmd FileType go nmap <silent> <Leader>v <Plug>(go-def-vertical)
-  autocmd FileType go nmap <silent> <Leader>s <Plug>(go-def-split)
+        autocmd FileType go nmap <silent> <Leader>v <Plug>(go-def-vertical)
+        autocmd FileType go nmap <silent> <Leader>s <Plug>(go-def-split)
 
-  autocmd FileType go nmap <silent> <Leader>x <Plug>(go-doc-vertical)
+        autocmd FileType go nmap <silent> <Leader>x <Plug>(go-doc-vertical)
 
-  autocmd FileType go nmap <silent> <Leader>i <Plug>(go-info)
-  autocmd FileType go nmap <silent> <Leader>l <Plug>(go-metalinter)
+        autocmd FileType go nmap <silent> <Leader>i <Plug>(go-info)
+        autocmd FileType go nmap <silent> <Leader>l <Plug>(go-metalinter)
 
-  autocmd FileType go nmap <silent> <leader>b :<C-u>call <SID>build_go_files()<CR>
-  autocmd FileType go nmap <silent> <leader>t  <Plug>(go-test)
-  autocmd FileType go nmap <silent> <leader>r  <Plug>(go-run)
-  autocmd FileType go nmap <silent> <leader>e  <Plug>(go-install)
+        autocmd FileType go nmap <silent> <leader>b :<C-u>call <SID>build_go_files()<CR>
+        autocmd FileType go nmap <silent> <leader>t  <Plug>(go-test)
+        autocmd FileType go nmap <silent> <leader>r  <Plug>(go-run)
+        autocmd FileType go nmap <silent> <leader>e  <Plug>(go-install)
 
-  autocmd FileType go nmap <silent> <Leader>c <Plug>(go-coverage-toggle)
+        autocmd FileType go nmap <silent> <Leader>c <Plug>(go-coverage-toggle)
 
-  " I like these more!
-  autocmd Filetype go command! -bang A call go#alternate#Switch(<bang>0, 'edit')
-  autocmd Filetype go command! -bang AV call go#alternate#Switch(<bang>0, 'vsplit')
-  autocmd Filetype go command! -bang AS call go#alternate#Switch(<bang>0, 'split')
-  autocmd Filetype go command! -bang AT call go#alternate#Switch(<bang>0, 'tabe')
+        " I like these more!
+        autocmd Filetype go command! -bang A call go#alternate#Switch(<bang>0, 'edit')
+        autocmd Filetype go command! -bang AV call go#alternate#Switch(<bang>0, 'vsplit')
+        autocmd Filetype go command! -bang AS call go#alternate#Switch(<bang>0, 'split')
+        autocmd Filetype go command! -bang AT call go#alternate#Switch(<bang>0, 'tabe')
 augroup END
 
 " ==================== CtrlP ====================
@@ -488,16 +498,12 @@ highlight PmenuSel ctermbg=009 ctermfg=000 gui=bold
 "set backupdir=~/.vimBackups
 "set directory=~/.vimSwaps
 
-" toggle NERDTree with F9
-"map <silent> <F9> :NERDTreeToggle<CR>
-
 " pathogen
 "execute pathogen#infect()
 
 " treat all numbers as decimals, not octals, regardless if they r padded with
 " zeros
 set nrformats=
-
 
 " syntastic (syntax checking plugin: https://github.com/scrooloose/syntastic)
 let g:syntastic_always_populate_loc_list = 1
