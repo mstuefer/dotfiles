@@ -5,6 +5,7 @@
 
 all:
 	[ -f ~/.config/nvim/init.vim ] 		|| mkdir -p ~/.config/nvim/ && ln -s $(PWD)/vimrc ~/.config/nvim/init.vim
+	[ -f ~/.alacritty.yml ]			|| ln -s $(PWD)/alacritty.yml ~/.alacritty.yml
 	[ -f ~/.ctags ] 			|| ln -s $(PWD)/ctags ~/.ctags
 	[ -f ~/.bashrc ] 			|| ln -s $(PWD)/bashrc ~/.bashrc
 	[ -f ~/.bash_profile ] 			|| ln -s $(PWD)/bashrc ~/.bash_profile
@@ -21,6 +22,7 @@ all:
 
 clean:
 	([ ! -f ~/.vimrc ] && [ ! -h ~/.vimrc ])				|| rm -rf ~/.vimrc
+	([ ! -f ~/.alacritty.yml ] && [ ! -h ~/.alacritty.yml ])		|| rm -rf ~/.alacritty.yml
 	([ ! -f ~/.ctags ] && [ ! -h ~/.ctags ])				|| rm -rf ~/.ctags
 	([ ! -f ~/.bashrc ] && [ ! -h ~/.bashrc ]) 				|| rm -rf ~/.bashrc
 	([ ! -f ~/.bash_profile ] && [ ! -h ~/.bash_profile ])			|| rm -rf ~/.bash_profile
