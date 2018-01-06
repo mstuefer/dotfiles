@@ -111,7 +111,6 @@ alias ali=aliases
 
 ##########
 # Exports
-export PATH="/Users/manuelstuefer/bin/Sencha/Cmd/6.1.2.15/..:$PATH"
 export GOPATH=~/go
 
 export EDITOR="vim"
@@ -179,3 +178,6 @@ shopt -s nocaseglob
 
 
 eval "$(direnv hook bash)"
+
+# Cargo / Rust
+export PATH="$HOME/.cargo/bin:$PATH"
