@@ -18,6 +18,7 @@ Plug 'scrooloose/syntastic'
 Plug 'shougo/deoplete.nvim', {'do' : ':UpdateRemotePlugins'}      " async keyword completion in current buffer
 Plug 'neovim/python-client'                                       " support for py plugins in nvim
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' } " clone fzf in ~/.fzf and run install script
+Plug 'junegunn/fzf.vim'                                           " the additional vim plugin
 
 call plug#end()
 
