@@ -1,6 +1,6 @@
 
 # TODO
-# iTerm2 ? (Set homebrew bash as default shell)
+# alacritty / git + rust
 # pip3 install neovim
 
 all:
