@@ -65,7 +65,7 @@ alias l=el
 alias ll='el -a'
 alias lt='el -T'
 
-alias ..='cd ..'
+alias ..='cd .. && pwd'
 
 alias t='tree -C -L 1'
 alias t1='tree -C -L 1'
@@ -153,6 +153,8 @@ export LESS_TERMCAP_so=$'\E[01;44;33m'
 export LESS_TERMCAP_ue=$'\E[0m'
 export LESS_TERMCAP_us=$'\E[01;32m'
 
+# https://github.com/junegunn/fzf
+export FZF_DEFAULT_OPTS="--preview 'head -n 100 {}'"
 
 # check windows size if windows is resized
 shopt -s checkwinsize
@@ -181,3 +183,5 @@ eval "$(direnv hook bash)"
 
 # Cargo / Rust
 export PATH="$HOME/.cargo/bin:$PATH"
+
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash
