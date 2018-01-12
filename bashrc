@@ -130,7 +130,7 @@ export HISTFILESIZE=10000000
 export HISTTIMEFORMAT='%F %T '
 shopt -s histappend
 shopt -s cmdhist
-shopt -s lithist # saves multi-line cmds to hist with embedded newlines, requres cmdhist to be on
+shopt -s lithist # saves multi-line cmds to hist with embedded newlines, requires cmdhist to be on
 
 bind '"\e[A": history-search-backward'
 bind '"\e[B": history-search-forward'
@@ -177,6 +177,8 @@ shopt -s globstar
 shopt -s no_empty_cmd_completion
 # Case-insensitive filename matching in filename expansion.
 shopt -s nocaseglob
+# lists the status of any stopped and running jobs before exiting. If jobs r running, it causes the exit to be deferred until a second exit is attempted
+shopt -s checkjobs
 
 
 eval "$(direnv hook bash)"
