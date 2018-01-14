@@ -76,6 +76,7 @@ alias td1='tree -C -d -L 1'
 alias td2='tree -C -d -L 2'
 alias td3='tree -C -d -L 3'
 
+alias grv='~/go/bin/grv'
 
 alias gpull='git pull '
 alias gpush='git push '
