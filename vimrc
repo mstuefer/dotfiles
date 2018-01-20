@@ -153,7 +153,7 @@ endfunction
 
 function! StatusLineLeftInfo()
         let branch = fugitive#head()
-        let filename = '' != expand('%:t') ? expand('%:t') : '[No Name]'
+        let filename = '' != expand('%:t') ? expand('%:t') : '¯\_(ツ)_/¯'
         if branch !=# ''
                 return printf("%s | %s", branch, filename)
         endif
@@ -202,9 +202,9 @@ set statusline+=%*
 let mapleader = ","
 
 " Some useful quickfix shortcuts for quickfix
-map <C-n> :cn<CR>
-map <C-m> :cp<CR>
-nnoremap <leader>a :cclose<CR>
+map <C-n> :cn<cr>
+map <C-m> :cp<cr>
+nnoremap <leader>a :cclose<cr>
 
 " put quickfix window always to the bottom
 autocmd FileType qf wincmd J
@@ -213,30 +213,17 @@ augroup quickfix
         autocmd FileType qf setlocal wrap
 augroup END
 
-" Fast saving
-"nnoremap <leader>w :w!<cr>
-"nnoremap <silent> <leader>q :q!<CR>
-
-" Center the screen
+" center file in window at current cursor position
 nnoremap <space> zz
 
 " Remove search highlight
-nnoremap <leader><space> :nohlsearch<CR>
-
-" Source the current Vim file
-nnoremap <leader>pr :Runtime<CR>
+nnoremap <leader><space> :nohlsearch<cr>
 
 " Close all but the current one
-nnoremap <leader>o :only<CR>
+nnoremap <leader>o :only<cr>
 
-" Better split switching
-map <C-j> <C-W>j
-map <C-k> <C-W>k
-map <C-h> <C-W>h
-map <C-l> <C-W>l
-
-" Print full path
-map <C-f> :echo expand("%:p")<cr>
+" Print full path / Info about full path
+nnoremap <C-i> :echo expand("%:p")<cr>
 
 " Visual linewise up and down by default (and use gj gk to go quicker)
 noremap <Up> gk
@@ -247,10 +234,13 @@ noremap k gk
 " Exit on jk
 imap jk <Esc>
 
-" Source (reload configuration)
-nnoremap <silent> <F5> :source $MYNVIMRC<CR>
+" quickly edit vimrc
+nnoremap <leader>ev :vsplit $MYVIMRC<cr>
 
-nnoremap <F6> :setlocal spell! spell?<CR>
+" Source (reload configuration)
+nnoremap <silent> <F5> :source $MYVIMRC<cr>
+
+nnoremap <F6> :setlocal spell! spell?<cr>
 
 " Search mappings: These will make it so that going to the next one in a
 " search will center on the line it's found in.
@@ -304,8 +294,8 @@ function! s:VSetSearch()
         let @@ = temp
 endfunction
 
-vnoremap * :<C-u>call <SID>VSetSearch()<CR>//<CR><c-o>
-vnoremap # :<C-u>call <SID>VSetSearch()<CR>??<CR><c-o>
+vnoremap * :<C-u>call <SID>VSetSearch()<cr>//<cr><c-o>
+vnoremap # :<C-u>call <SID>VSetSearch()<cr>??<cr><c-o>
 
 " create a go doc comment based on the word under the cursor
 function! s:create_go_doc_comment()
@@ -313,7 +303,7 @@ function! s:create_go_doc_comment()
         execute ":put! z"
         execute ":norm I// \<Esc>$"
 endfunction
-nnoremap <leader>ui :<C-u>call <SID>create_go_doc_comment()<CR>
+nnoremap <leader>ui :<C-u>call <SID>create_go_doc_comment()<cr>
 
 "
 "===================== PLUGINS ======================
@@ -332,8 +322,8 @@ let g:limelight_conceal_ctermfg = 240
 " :LimeLight! to leave
 
 " ==================== Fugitive ====================
-vnoremap <leader>gb :Gblame<CR>
-nnoremap <leader>gb :Gblame<CR>
+vnoremap <leader>gb :Gblame<cr>
+nnoremap <leader>gb :Gblame<cr>
 
 " ==================== vim-go ======================
 let g:go_fmt_fail_silently = 0
@@ -381,7 +371,7 @@ augroup go
         autocmd FileType go nmap <silent> <Leader>i <Plug>(go-info)
         autocmd FileType go nmap <silent> <Leader>l <Plug>(go-metalinter)
 
-        autocmd FileType go nmap <silent> <leader>b :<C-u>call <SID>build_go_files()<CR>
+        autocmd FileType go nmap <silent> <leader>b :<C-u>call <SID>build_go_files()<cr>
         autocmd FileType go nmap <silent> <leader>t  <Plug>(go-test)
         autocmd FileType go nmap <silent> <leader>r  <Plug>(go-run)
         autocmd FileType go nmap <silent> <leader>e  <Plug>(go-install)
@@ -417,7 +407,7 @@ let g:delimitMate_smart_quotes = 1
 let g:delimitMate_expand_inside_quotes = 0
 let g:delimitMate_smart_matchpairs = '^\%(\w\|\$\)'
 
-imap <expr> <CR> pumvisible() ? "\<c-y>" : "<Plug>delimitMateCR"
+imap <expr> <cr> pumvisible() ? "\<c-y>" : "<Plug>delimitMateCR"
 
 " ==================== NerdTree ====================
 " For toggling
@@ -527,3 +517,16 @@ let g:go_fmt_command="goimports"
 let g:python_host_prog="/usr/local/bin/python3"
 let g:python3_host_prog="/usr/local/bin/python3"
 let g:deoplete#enable_at_startup = 1
+
+" perl shortcuts
+augroup perlshortcuts
+        autocmd Filetype perl           :iabbrev <buffer> ifor my($i; $i<=?; $i++)<esc>4bf?
+        autocmd Filetype perl           :iabbrev <buffer> mfor foreach my $i ($?)<esc>2bf?
+augroup END
+
+" 'go back' to previous buffer
+nnoremap gb :bprevious<cr>
+" 'close this' current buffer
+nnoremap ct :bd<cr>
+
+autocmd VimEnter * echo '¯\_(ツ)_/¯ :: nvim, what else?'
