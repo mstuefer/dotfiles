@@ -188,3 +188,4 @@ eval "$(direnv hook bash)"
 export PATH="$HOME/.cargo/bin:$PATH"
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
+[ -f ~/.local_aliases ] && source ~/.local_aliases
