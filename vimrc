@@ -23,14 +23,13 @@ Plug 'junegunn/limelight.vim'
 
 call plug#end()
 
-"====================
+" 'za' on a section, to fold/unfold it
 
+" General Settings {{{
 set nocompatible                " no compatible with old vim
 filetype off
 filetype plugin indent on
-
 set ttyfast
-
 set laststatus=2                " enable statusline
 set encoding=utf-8
 set autoindent
@@ -38,7 +37,6 @@ set backspace=indent,eol,start
 set incsearch
 set hlsearch
 set mouse=a
-
 set noerrorbells
 set showcmd
 set noswapfile
@@ -56,71 +54,96 @@ set completeopt=menu,menuone
 set nocursorcolumn
 set nocursorline
 set updatetime=100
-
 set pumheight=10                " completion window max size
-
 set viminfo='200
-
 set lazyredraw
-
 if has('persistent_undo')
         set undofile
         set undodir=~/.cache/vim
 endif
-
 syntax enable
-set t_Co=256
+set expandtab
+set clipboard=unnamed
+set shell=/bin/bash           " vim requires posix compatible shell in fish
+set cursorline               " highlight current line
+set vb                       " enable visual bell
+set ruler                    " show row and column in footer
+" show tabs, trailing spaces, and non breaking spaces
+set listchars=tab:˛\ ,trail:┈,nbsp:☠
+set list
+" complete filenames as far as possible
+set wildmode=longest,list,full
+" Time out on key codes but not mappings.
+" Basically this makes terminal Vim work sanely.
+if !has('gui_running')
+        set notimeout
+        set ttimeout
+        set ttimeoutlen=10
+        augroup FastEscape
+                autocmd!
+                au InsertEnter * set timeoutlen=0
+                au InsertLeave * set timeoutlen=1000
+        augroup END
+endif
+" treat all numbers as decimals, not octals, regardless if they r padded with
+" zeros
+set nrformats=
+" display all matching fields when we tab complete
+set wildmenu
 
-let g:rehash256=1
+" }}}
+
+" Colorscheme Solarized {{{
+set t_Co=256
 set background=dark
 let g:solarized_termtrans=1
 let g:solarized_termcolors=256
 colorscheme solarized
+" }}}
 
-set expandtab
-
+" Numbertoggle {{{
 set number relativenumber       " set relativenumber
 augroup numbertoggle
         autocmd!
         autocmd BufEnter,FocusGained,InsertLeave * set relativenumber " on active tab
         autocmd BufLeave,FocusLost,InsertEnter * set norelativenumber " on non-active tabs
 augroup END
+" }}}
 
+" Deletion Of Trailing Slashes {{{
 autocmd BufWritePre * :%s/\s\+$//e  " del trailing slashes on save
+" }}}
 
-if has("autocmd")
-        au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$")
-                                \| exe "normal! g'\"" | endif
-endif                           " jump to last position on reopening
-
-autocmd BufNewFile,BufRead *.go setlocal noexpandtab ts=4 sw=4
-autocmd BufNewFile,BufRead *.txt setlocal noet ts=4 sw=4
-autocmd BufNewFile,BufRead *.md setlocal noet ts=4 sw=4
-autocmd BufNewFile,BufRead *.vim setlocal expandtab sw=2 ts=2
-
-autocmd FileType json setlocal expandtab sw=2 ts=2
-autocmd FileType ruby setlocal expandtab sw=2 ts=2
-autocmd FileType perl setlocal expandtab sw=4 ts=4
-
+" Filetypedetect to set ts, sw, .. {{{
 augroup filetypedetect
+        autocmd BufNewFile,BufRead *.go setlocal noexpandtab ts=4 sw=4
+        autocmd BufNewFile,BufRead *.txt setlocal noexpandtab ts=4 sw=4
+        autocmd BufNewFile,BufRead *.md setlocal noexpandtab ts=4 sw=4
+        autocmd BufNewFile,BufRead *.vim setlocal expandtab sw=2 ts=2
         autocmd BufNewFile,BufRead .tmux.conf*,tmux.conf* setf tmux
+
+        autocmd FileType json setlocal expandtab sw=2 ts=2
+        autocmd FileType ruby setlocal expandtab sw=2 ts=2
+        autocmd FileType perl setlocal expandtab sw=4 ts=4
 augroup END
+" }}}
 
+" StatusLine {{{
 let s:modes = {
-                        \ 'n': 'NORMAL',
-                        \ 'i': 'INSERT',
-                        \ 'R': 'REPLACE',
-                        \ 'v': 'VISUAL',
-                        \ 'V': 'V-LINE',
-                        \ "\<C-v>": 'V-BLOCK',
-                        \ 'c': 'COMMAND',
-                        \ 's': 'SELECT',
-                        \ 'S': 'S-LINE',
-                        \ "\<C-s>": 'S-BLOCK',
-                        \ 't': 'TERMINAL'
-                        \}
-
+                \ 'n': 'NORMAL',
+                \ 'i': 'INSERT',
+                \ 'R': 'REPLACE',
+                \ 'v': 'VISUAL',
+                \ 'V': 'V-LINE',
+                \ "\<C-v>": 'V-BLOCK',
+                \ 'c': 'COMMAND',
+                \ 's': 'SELECT',
+                \ 'S': 'S-LINE',
+                \ "\<C-s>": 'S-BLOCK',
+                \ 't': 'TERMINAL'
+        \}
 let s:prev_mode = ""
+
 function! StatusLineMode()
         let cur_mode = get(s:modes, mode(), '')
 
@@ -161,6 +184,8 @@ function! StatusLineLeftInfo()
 endfunction
 
 exe 'hi! myInfoColor ctermbg=240 ctermfg=252'
+autocmd InsertEnter * hi StatusLine cterm=bold ctermbg=23 ctermfg=231
+autocmd InsertLeave * hi StatusLine ctermbg=8 ctermfg=236
 
 " start building our statusline
 set statusline=
@@ -168,7 +193,7 @@ set statusline=
 " mode with custom colors
 set statusline+=%#myModeColor#
 set statusline+=%{StatusLineMode()}
-set statusline+=%*
+set statusline+=%*"{{{}}}
 
 " left information bar (after mode)
 set statusline+=%#myInfoColor#
@@ -192,26 +217,23 @@ set statusline+=\ %*
 set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
+" }}}
 
-"=====================================================
-"===================== MAPPINGS ======================
-
-" This comes first, because we have mappings that depend on leader
-" With a map leader it's possible to do extra key combinations
-" i.e: <leader>w saves the current file
-let mapleader = ","
-
-" Some useful quickfix shortcuts for quickfix
-map <C-n> :cn<cr>
-map <C-m> :cp<cr>
-nnoremap <leader>a :cclose<cr>
-
-" put quickfix window always to the bottom
+" Quickfix to the bottom {{{
 autocmd FileType qf wincmd J
 augroup quickfix
         autocmd!
         autocmd FileType qf setlocal wrap
 augroup END
+" }}}
+
+" Mappings {{{
+let mapleader = "," " Setting leader
+
+" Some useful quickfix shortcuts for quickfix
+noremap <C-n> :cn<cr>
+noremap <C-m> :cp<cr>
+nnoremap <leader>a :cclose<cr>
 
 " center file in window at current cursor position
 nnoremap <space> zz
@@ -232,7 +254,7 @@ noremap j gj
 noremap k gk
 
 " Exit on jk
-imap jk <Esc>
+inoremap jk <Esc>
 
 " quickly edit vimrc
 nnoremap <leader>ev :vsplit $MYVIMRC<cr>
@@ -260,9 +282,6 @@ vnoremap L g_
 " Act like D and C
 nnoremap Y y$
 
-" Enter automatically into the files directory
-autocmd BufEnter * silent! lcd %:p:h
-
 " Do not show stupid q: window
 map q: :q
 
@@ -270,62 +289,57 @@ map q: :q
 " when you're in a function so fuck it, practicality beats purity.
 nnoremap <silent> * :let stay_star_view = winsaveview()<cr>*:call winrestview(stay_star_view)<cr>
 
-" Time out on key codes but not mappings.
-" Basically this makes terminal Vim work sanely.
-if !has('gui_running')
-        set notimeout
-        set ttimeout
-        set ttimeoutlen=10
-        augroup FastEscape
-                autocmd!
-                au InsertEnter * set timeoutlen=0
-                au InsertLeave * set timeoutlen=1000
-        augroup END
-endif
+" 'go back' to previous buffer
+nnoremap gb :bprevious<cr>
+" 'close this' current buffer
+nnoremap ct :bd<cr>
+" :nnoremap <leader>g :silent execute "grep! -R " . shellescape(expand("<cWORD>")) . " ."<cr>:copen<cr>
+nnoremap <leader>s :rightbelow split<cr>
+nnoremap <leader>v :rightbelow vsplit<cr>
+nnoremap <leader>b :buffers<cr>
 
-au InsertEnter * hi StatusLine ctermbg=235 ctermfg=2
-au InsertLeave * hi StatusLine ctermbg=2   ctermfg=235
+nnoremap T zt " current cursor line at top of window
+" }}}
 
-" Visual Mode */# from Scrooloose {{{
-function! s:VSetSearch()
-        let temp = @@
-        norm! gvy
-        let @/ = '\V' . substitute(escape(@@, '\'), '\n', '\\n', 'g')
-        let @@ = temp
-endfunction
+autocmd BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | exe "normal! g'\"" | endif " jump to last position on reopening
 
-vnoremap * :<C-u>call <SID>VSetSearch()<cr>//<cr><c-o>
-vnoremap # :<C-u>call <SID>VSetSearch()<cr>??<cr><c-o>
+" Enter automatically into the files directory
+autocmd BufEnter * silent! lcd %:p:h
 
-" create a go doc comment based on the word under the cursor
-function! s:create_go_doc_comment()
-        norm "zyiw
-        execute ":put! z"
-        execute ":norm I// \<Esc>$"
-endfunction
-nnoremap <leader>ui :<C-u>call <SID>create_go_doc_comment()<cr>
+" (DEACTIVATED) Visual Mode */# from Scrooloose {{{
+"function! s:VSetSearch()
+"        let temp = @@
+"        norm! gvy
+"        let @/ = '\V' . substitute(escape(@@, '\'), '\n', '\\n', 'g')
+"        let @@ = temp
+"endfunction
 
-"
-"===================== PLUGINS ======================
-"
+"vnoremap * :<C-u>call <SID>VSetSearch()<cr>//<cr><c-o>
+"vnoremap # :<C-u>call <SID>VSetSearch()<cr>??<cr><c-o>
+" }}}
 
-" ==================== FZF ===================
-nmap <C-t> :Files<cr>
-nmap <C-c> :Commits<cr>
-nmap <C-a> :Ag<cr>
-nmap <C-f> :Tags<cr>
+" PLUGINS
 
-" ==================== limelight ===================
+" FZF  {{{
+nnoremap <C-t> :Files<cr>
+nnoremap <C-c> :Commits<cr>
+nnoremap <C-a> :Ag<cr>
+nnoremap <C-f> :Tags<cr>
+" }}}
+
+" Limelight  {{{
 let g:limelight_conceal_ctermfg = 'gray'
 let g:limelight_conceal_ctermfg = 240
 "nmap <Leader>l <Plug>(Limelight)
 " :LimeLight! to leave
+" }}}
 
-" ==================== Fugitive ====================
+" Fugitive {{{
 vnoremap <leader>gb :Gblame<cr>
 nnoremap <leader>gb :Gblame<cr>
+" }}}
 
-" ==================== vim-go ======================
+" Vim-Go  {{{
 let g:go_fmt_fail_silently = 0
 let g:go_fmt_command = "goimports"
 let g:go_list_type = "quickfix"
@@ -334,21 +348,18 @@ let g:go_def_mode = "guru"
 let g:go_echo_command_info = 1
 let g:go_gocode_autobuild = 0
 let g:go_gocode_unimported_packages = 1
-
 let g:go_autodetect_gopath = 1
 let g:go_info_mode = "guru"
-
 let g:go_highlight_space_tab_error = 0
 let g:go_highlight_array_whitespace_error = 0
 let g:go_highlight_trailing_whitespace_error = 0
 let g:go_highlight_extra_types = 0
 let g:go_highlight_build_constraints = 1
 let g:go_highlight_types = 0
-
 let g:go_modifytags_transform = 'camelcase'
 
-nmap <C-g> :GoDecls<cr>
-imap <C-g> <esc>:<C-u>GoDecls<cr>
+nnoremap <C-g> :GoDecls<cr>
+inoremap <C-g> <esc>:<C-u>GoDecls<cr>
 
 " run :GoBuild or :GoTestCompile based on the go file
 function! s:build_go_files()
@@ -364,7 +375,7 @@ augroup go
         autocmd!
 
         autocmd FileType go nmap <silent> <Leader>v <Plug>(go-def-vertical)
-        autocmd FileType go nmap <silent> <Leader>s <Plug>(go-def-split)
+        autocmd FileType go nmap <silent> Leader>s <Plug>(go-def-split)
 
         autocmd FileType go nmap <silent> <Leader>x <Plug>(go-doc-vertical)
 
@@ -384,8 +395,9 @@ augroup go
         autocmd Filetype go command! -bang AS call go#alternate#Switch(<bang>0, 'split')
         autocmd Filetype go command! -bang AT call go#alternate#Switch(<bang>0, 'tabe')
 augroup END
+" }}}
 
-" ==================== CtrlP ====================
+" CtrlP  {{{
 let g:ctrlp_cmd = 'CtrlPMRU'
 let g:ctrlp_working_path_mode = 'ra'
 let g:ctrlp_switch_buffer = 'et'  " jump to a file if it's open already
@@ -399,8 +411,9 @@ let g:ctrlp_buftag_types = {'go' : '--language-force=go --golang-types=ftv'}
 
 nmap <C-b> :CtrlPCurWD<cr>
 imap <C-b> <esc>:CtrlPCurWD<cr>
+" }}}
 
-" ==================== delimitMate ====================
+" delimitMate  {{{
 let g:delimitMate_expand_cr = 1
 let g:delimitMate_expand_space = 1
 let g:delimitMate_smart_quotes = 1
@@ -408,20 +421,21 @@ let g:delimitMate_expand_inside_quotes = 0
 let g:delimitMate_smart_matchpairs = '^\%(\w\|\$\)'
 
 imap <expr> <cr> pumvisible() ? "\<c-y>" : "<Plug>delimitMateCR"
+" }}}
 
-" ==================== NerdTree ====================
+" NerdTree {{{
 " For toggling
 noremap <Leader>n :NERDTreeToggle<cr>
 noremap <Leader>f :NERDTreeFind<cr>
 
 let NERDTreeShowHidden=1
+" }}}
 
-" ==================== Ag ====================
-let g:ackprg = 'ag --vimgrep --smart-case'
-" ==================== vim-json ====================
+" Vim-Json {{{
 let g:vim_json_syntax_conceal = 0
+" }}}
 
-" ==================== UltiSnips ====================
+" UltiSnips {{{
 "function! g:UltiSnips_Complete()
 "  call UltiSnips#ExpandSnippet()
 "  if g:ulti_expand_res == 0
@@ -446,7 +460,6 @@ let g:vim_json_syntax_conceal = 0
 "  return ""
 "endfunction
 
-
 "if !exists("g:UltiSnipsJumpForwardTrigger")
 "  let g:UltiSnipsJumpForwardTrigger = "<tab>"
 "endif
@@ -457,76 +470,44 @@ let g:vim_json_syntax_conceal = 0
 
 "au InsertEnter * exec "inoremap <silent> " . g:UltiSnipsExpandTrigger . " <C-R>=g:UltiSnips_Complete()<cr>"
 "au InsertEnter * exec "inoremap <silent> " . g:UltiSnipsJumpBackwardTrigger . " <C-R>=g:UltiSnips_Reverse()<cr>"
+" }}}
 
-
-" ==================== Various other plugin settings ====================
+" Choosewin {{{
 nmap  -  <Plug>(choosewin)
+" }}}
 
 " Trigger a highlight in the appropriate direction when pressing these keys:
-let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
-
-"""""""""""""""""""""" MS
-
-set clipboard=unnamed
-set shell=/bin/bash           " vim requires posix compatible shell in fish
-
-set cursorline               " highlight current line
-set vb                       " enable visual bell
-set ruler                    " show row and column in footer
-
-" show tabs, trailing spaces, and non breaking spaces
-set listchars=tab:˛\ ,trail:┈,nbsp:☠
-set list
-
-" complete filenames as far as possible
-set wildmode=longest,list,full
+"let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
 
 " improve autocomplete menu color
 highlight Pmenu ctermbg=052 ctermfg=255 gui=bold
 highlight PmenuSel ctermbg=009 ctermfg=000 gui=bold
 
-"inoremap <expr> <C-CR> pumvisible() ? "\<C-y>" : "/<C-g>u\<CR>"
-
-" centralize backups, swapfiles and undo history
-"set backupdir=~/.vimBackups
-"set directory=~/.vimSwaps
-
-" pathogen
-"execute pathogen#infect()
-
-" treat all numbers as decimals, not octals, regardless if they r padded with
-" zeros
-set nrformats=
-
-" syntastic (syntax checking plugin: https://github.com/scrooloose/syntastic)
+" Syntastic {{{
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
+" }}}
 
-" search down into subfolders
-" set path+=**
-
-" display all matching fields when we tab complete
-set wildmenu
-
-" Go settings
-let g:go_fmt_command="goimports"
-
-" deoplete
+" Deoplete {{{
 let g:python_host_prog="/usr/local/bin/python3"
 let g:python3_host_prog="/usr/local/bin/python3"
 let g:deoplete#enable_at_startup = 1
+" }}}
 
-" perl shortcuts
+" Perl Shortcuts {{{
 augroup perlshortcuts
         autocmd Filetype perl           :iabbrev <buffer> ifor my($i; $i<=?; $i++)<esc>4bf?
         autocmd Filetype perl           :iabbrev <buffer> mfor foreach my $i ($?)<esc>2bf?
 augroup END
+" }}}
 
-" 'go back' to previous buffer
-nnoremap gb :bprevious<cr>
-" 'close this' current buffer
-nnoremap ct :bd<cr>
+" Vimscript file settings ---------------------- {{{
+augroup filetype_vim
+  autocmd!
+  autocmd FileType vim setlocal foldmethod=marker
+augroup END
+" }}}
 
 autocmd VimEnter * echo '¯\_(ツ)_/¯ :: nvim, what else?'
