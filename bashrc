@@ -28,7 +28,7 @@ fi
 ##########
 # Functions
 my_find() {
-    find . -name "*$1*"
+    find . -iname "*$1*"
 }
 
 # extracts the given file
