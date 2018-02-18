@@ -20,6 +20,8 @@ Plug 'neovim/python-client'                                       " support for 
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' } " clone fzf in ~/.fzf and run install script
 Plug 'junegunn/fzf.vim'                                           " the additional vim plugin
 Plug 'junegunn/limelight.vim'
+Plug 'vim-perl/vim-perl', { 'for': 'perl', 'do': 'make clean carp dancer highlight-all-pragmas moose test-more try-tiny' }
+Plug 'mstuefer/vim-potion'
 
 call plug#end()
 
@@ -375,7 +377,7 @@ augroup go
         autocmd!
 
         autocmd FileType go nmap <silent> <Leader>v <Plug>(go-def-vertical)
-        autocmd FileType go nmap <silent> Leader>s <Plug>(go-def-split)
+        autocmd FileType go nmap <silent> <Leader>s <Plug>(go-def-split)
 
         autocmd FileType go nmap <silent> <Leader>x <Plug>(go-doc-vertical)
 
