@@ -303,9 +303,10 @@ nnoremap <leader>b :buffers<cr>
 
 " In tmux, open a pane (bottom/20%) executing shell command
 nnoremap P :VimuxPromptCommand<cr>
+nnoremap L :VimuxRunLastCommand<cr>
 
 nnoremap T zt " current cursor line at top of window
-nnoremap L zb " current cursor line at bottom of window
+nnoremap B zb " current cursor line at bottom of window
 " }}}
 
 autocmd BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | exe "normal! g'\"" | endif " jump to last position on reopening
