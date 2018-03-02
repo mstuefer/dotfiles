@@ -22,6 +22,7 @@ Plug 'junegunn/fzf.vim'                                           " the addition
 Plug 'junegunn/limelight.vim'
 Plug 'vim-perl/vim-perl', { 'for': 'perl', 'do': 'make clean carp dancer highlight-all-pragmas moose test-more try-tiny' }
 Plug 'mstuefer/vim-potion'
+Plug 'https://github.com/benmills/vimux.git'
 
 call plug#end()
 
@@ -300,7 +301,11 @@ nnoremap <leader>s :rightbelow split<cr>
 nnoremap <leader>v :rightbelow vsplit<cr>
 nnoremap <leader>b :buffers<cr>
 
+" In tmux, open a pane (bottom/20%) executing shell command
+nnoremap P :VimuxPromptCommand<cr>
+
 nnoremap T zt " current cursor line at top of window
+nnoremap L zb " current cursor line at bottom of window
 " }}}
 
 autocmd BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | exe "normal! g'\"" | endif " jump to last position on reopening
