@@ -181,6 +181,8 @@ shopt -s nocaseglob
 # lists the status of any stopped and running jobs before exiting. If jobs r running, it causes the exit to be deferred until a second exit is attempted
 shopt -s checkjobs
 
+# set bash into vi editing mode
+set -o vi
 
 eval "$(direnv hook bash)"
 
