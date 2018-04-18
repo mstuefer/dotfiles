@@ -24,6 +24,9 @@ Plug 'vim-perl/vim-perl', { 'for': 'perl', 'do': 'make clean carp dancer highlig
 Plug 'mstuefer/vim-potion'
 Plug 'https://github.com/benmills/vimux.git'
 
+Plug 'hail2u/vim-css3-syntax'
+Plug 'ap/vim-css-color'
+
 call plug#end()
 
 " 'za' on a section, to fold/unfold it
@@ -128,6 +131,7 @@ augroup filetypedetect
         autocmd FileType json setlocal expandtab sw=2 ts=2
         autocmd FileType ruby setlocal expandtab sw=2 ts=2
         autocmd FileType perl setlocal expandtab sw=4 ts=4
+        autocmd FileType html setlocal expandtab sw=2 ts=2
 augroup END
 " }}}
 
@@ -307,6 +311,10 @@ nnoremap L :VimuxRunLastCommand<cr>
 
 nnoremap T zt " current cursor line at top of window
 nnoremap B zb " current cursor line at bottom of window
+
+nnoremap <leader>w :w<cr>
+nnoremap <leader>q :q<cr>
+nnoremap <leader>a :qa<cr>
 " }}}
 
 autocmd BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | exe "normal! g'\"" | endif " jump to last position on reopening
@@ -382,8 +390,8 @@ endfunction
 augroup go
         autocmd!
 
-        autocmd FileType go nmap <silent> <Leader>v <Plug>(go-def-vertical)
-        autocmd FileType go nmap <silent> <Leader>s <Plug>(go-def-split)
+        " autocmd FileType go nmap <silent> <Leader>v <Plug>(go-def-vertical)
+        " autocmd FileType go nmap <silent> <Leader>s <Plug>(go-def-split)
 
         autocmd FileType go nmap <silent> <Leader>x <Plug>(go-doc-vertical)
 
