@@ -32,7 +32,7 @@ my_find() {
 }
 
 # extracts the given file
-x () {
+ext () {
     if [ -f $1 ] ; then
       case $1 in
         *.tar.bz2)   tar xjf $1     ;;
@@ -53,12 +53,23 @@ x () {
      fi
 }
 
+cleanup_and_exit() {
+        nl ~/.bash_history | \
+                sort -k2 | \
+                uniq -f1 | \
+                sort -k1 | \
+                cut -f2 > ~/.clean_bash_history;
+        mv ~/.clean_bash_history ~/.bash_history;
+        exit;
+}
+
 ##########
 # Aliases
 alias vim='nvim'
 alias e=vim
 alias v=vim
 alias vi=vim
+alias VISUAL=vim
 
 alias el='exa -l --git --sort=Name'
 alias l=el
@@ -110,6 +121,7 @@ alias ff=my_find
 alias aliases='grep alias ~/.bashrc | grep -v \# | cut -d " " -f2 -f3 '
 alias ali=aliases
 
+alias x=cleanup_and_exit
 ##########
 # Exports
 export GOPATH=~/go
@@ -156,6 +168,7 @@ export LESS_TERMCAP_us=$'\E[01;32m'
 
 # https://github.com/junegunn/fzf
 export FZF_DEFAULT_OPTS="--preview 'head -n 100 {}'"
+export FZF_DEFAULT_COMMAND='rg --files'
 
 # check windows size if windows is resized
 shopt -s checkwinsize
