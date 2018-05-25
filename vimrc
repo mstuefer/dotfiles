@@ -14,7 +14,6 @@ Plug 'tpope/vim-fugitive'                                         " git wrapper
 Plug 'altercation/vim-colors-solarized'
 Plug 'pangloss/vim-javascript'                                    " js bundle for vim (better highlighting etc)
 Plug 'airblade/vim-gitgutter'                                     " show git diff in gutter (sign column)
-Plug 'scrooloose/syntastic'
 Plug 'shougo/deoplete.nvim', {'do' : ':UpdateRemotePlugins'}      " async keyword completion in current buffer
 Plug 'neovim/python-client'                                       " support for py plugins in nvim
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' } " clone fzf in ~/.fzf and run install script
@@ -26,6 +25,8 @@ Plug 'https://github.com/benmills/vimux.git'
 
 Plug 'hail2u/vim-css3-syntax'
 Plug 'ap/vim-css-color'
+
+Plug 'w0rp/ale'                                                   " async lint engine
 
 call plug#end()
 
@@ -220,10 +221,9 @@ set statusline+=%#myInfoColor#
 set statusline+=\ %{StatusLineFiletype()}\ %{StatusLinePercent()}\ %l:%v
 set statusline+=\ %*
 
-" syntastic
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
+" ale
+let g:ale_linters = { 'javascript': ['eslint'], 'perl': ['perl-critic'], 'ruby': ['rubocop'], 'vim': ['vint'], 'go': ['gofmt']}
+
 " }}}
 
 " Quickfix to the bottom {{{
@@ -314,7 +314,10 @@ nnoremap B zb " current cursor line at bottom of window
 
 nnoremap <leader>w :w<cr>
 nnoremap <leader>q :q<cr>
+nnoremap <leader>x :wq<cr>
 nnoremap <leader>a :qa<cr>
+
+nnoremap <leader>t :term<cr>
 " }}}
 
 autocmd BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | exe "normal! g'\"" | endif " jump to last position on reopening
