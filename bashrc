@@ -76,6 +76,8 @@ alias l=el
 alias ll='el -a'
 alias lt='el -T'
 
+alias c='cat'
+
 alias ..='cd .. && pwd'
 
 alias t='tree -C -L 1'
