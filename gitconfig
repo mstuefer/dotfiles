@@ -33,11 +33,11 @@
 	whitespace=fix,-indent-with-non-tab,trailing-space,cr-at-eol
 	editor = vim
 	quotepath = false
-[credential]
-	helper = osxkeychain
 [github]
 	user = mstuefer
 [mergetool]
 	keepBackup = true
 [push]
 	default = current
+[credential]
+	helper = cache
