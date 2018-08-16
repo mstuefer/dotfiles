@@ -32,6 +32,8 @@ Plug 'ap/vim-css-color'
 
 Plug 'w0rp/ale'                                                   " async lint engine
 
+Plug 'majutsushi/tagbar'
+
 call plug#end()
 
 " 'za' on a section, to fold/unfold it
