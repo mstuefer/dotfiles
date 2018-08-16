@@ -2,28 +2,22 @@
 
 # PATH
 # use stuff installed via brew first
-export PATH=/usr/local/bin:$PATH:$HOME/.rvm/bin
+export PATH=/usr/local/bin:$PATH:$HOME/.rvm/bin:/usr/local/go/bin:/usr/local/rust/bin:~/go/bin
 
 # Load RVM function
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm"
 
 # bash completion
-if [ -f $(brew --prefix)/etc/bash_completion ]; then
-    . $(brew --prefix)/etc/bash_completion
-fi
+. /etc/bash_completion
 
 # autojump around
-if [ -f $(brew --prefix)/etc/profile.d/z.sh ]; then
-  . $(brew --prefix)/etc/profile.d/z.sh
-fi
+#if [ -f $(brew --prefix)/etc/profile.d/z.sh ]; then
+#  . $(brew --prefix)/etc/profile.d/z.sh
+#fi
 
-if [ -f ~/.git-prompt.sh ]; then
-  source ~/.git-prompt.sh
-fi
+. ~/.git-prompt.sh
 
-if [ -f ~/.git-completition.bash ]; then
-  source ~/.git-completition.bash
-fi
+. ~/.git-completion.sh
 
 ##########
 # Functions
@@ -71,12 +65,14 @@ alias v=vim
 alias vi=vim
 alias VISUAL=vim
 
-alias el='exa -l --git --sort=Name'
+alias el='exa-linux-x86_64 -l --git --sort=Name'
 alias l=el
 alias ll='el -a'
 alias lt='el -T'
 
 alias c='cat'
+
+alias m='neomutt'
 
 alias ..='cd .. && pwd'
 
