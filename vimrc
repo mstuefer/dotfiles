@@ -12,9 +12,13 @@ Plug 'tmux-plugins/vim-tmux', {'for' : 'tmux' }                   " tmux.conf ed
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'                                         " git wrapper
 Plug 'altercation/vim-colors-solarized'
+"Plug 'lifepillar/vim-solarized8'
 Plug 'pangloss/vim-javascript'                                    " js bundle for vim (better highlighting etc)
 Plug 'airblade/vim-gitgutter'                                     " show git diff in gutter (sign column)
 Plug 'shougo/deoplete.nvim', {'do' : ':UpdateRemotePlugins'}      " async keyword completion in current buffer
+Plug 'shougo/neosnippet.vim'
+Plug 'shougo/neosnippet-snippets'
+Plug 'c9s/perlomni.vim'
 Plug 'neovim/python-client'                                       " support for py plugins in nvim
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' } " clone fzf in ~/.fzf and run install script
 Plug 'junegunn/fzf.vim'                                           " the additional vim plugin
@@ -31,6 +35,8 @@ Plug 'w0rp/ale'                                                   " async lint e
 call plug#end()
 
 " 'za' on a section, to fold/unfold it
+
+let g:ale_completion_enabled = 1
 
 " General Settings {{{
 set nocompatible                " no compatible with old vim
@@ -133,6 +139,7 @@ augroup filetypedetect
         autocmd FileType ruby setlocal expandtab sw=2 ts=2
         autocmd FileType perl setlocal expandtab sw=4 ts=4
         autocmd FileType html setlocal expandtab sw=2 ts=2
+        autocmd FileType c    setlocal expandtab sw=2 ts=2
 augroup END
 " }}}
 
@@ -510,9 +517,15 @@ let g:syntastic_check_on_wq = 0
 " }}}
 
 " Deoplete {{{
-let g:python_host_prog="/usr/local/bin/python3"
-let g:python3_host_prog="/usr/local/bin/python3"
+let g:python_host_prog="/usr/bin/python3"
+let g:python3_host_prog="/usr/bin/python3"
 let g:deoplete#enable_at_startup = 1
+" }}}
+
+" neosnippet {{{
+imap <C-k>  <Plug>(neosnippet_expand_or_jump)
+smap <C-k>  <Plug>(neosnippet_expand_or_jump)
+xmap <C-k>  <Plug>(neosnippet_expand_target)
 " }}}
 
 " Perl Shortcuts {{{
