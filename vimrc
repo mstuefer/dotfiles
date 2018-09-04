@@ -326,7 +326,8 @@ nnoremap <leader>q :q<cr>
 nnoremap <leader>x :wq<cr>
 nnoremap <leader>a :qa<cr>
 
-nnoremap <leader>t :term<cr>
+" nnoremap <leader>t :term<cr>
+nnoremap <leader>t :TagbarToggle<cr>
 " }}}
 
 autocmd BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | exe "normal! g'\"" | endif " jump to last position on reopening
