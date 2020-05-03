@@ -47,8 +47,6 @@ Plug 'brandonbloom/csearch.vim'
 " ^^ :csearch something directly
 Plug 'mbbill/undotree'
 " ^^ move through latest changes in the Undotree after UndotreeToggle
-Plug 'junegunn/goyo.vim'
-" ^^ edit files in 'focus' mode
 
 call plug#end()
 
@@ -309,6 +307,10 @@ nnoremap <leader>ev :vsplit $MYVIMRC<cr>
 nnoremap <silent> <F5> :source $MYVIMRC<cr>
 
 nnoremap <F6> :setlocal spell! spell?<cr>
+" `:setlocal spell spelllang=en_us` <- set spelling only in current buffer
+" `:set spell spelllang=en_us` <- set spelling everywhere
+" `]s` move to next misspelled word
+" `[s` move to prev misspelled word
 
 " Search mappings: These will make it so that going to the next one in a
 " search will center on the line it's found in.
@@ -514,7 +516,7 @@ augroup filetype_vim
 augroup END
 " }}}
 
-autocmd VimEnter * echo '¯\_(ツ)_/¯ :: nvim, what else?'
+" autocmd VimEnter * echo '¯\_(ツ)_/¯ :: nvim, what else?'
 
 highlight CursorLineNr ctermbg=236
 " ^^ needs to be placed after colorscheme, sets bg to yellow in ruler
